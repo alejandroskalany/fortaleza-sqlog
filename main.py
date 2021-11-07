@@ -88,17 +88,6 @@ for i in range(0, len(x_filt)-1):
 arrmidpoints_x = np.array(midpoints_x)
 arrmidpoints_y = np.array(midpoints_y)
 
-
-def sq(x, y):
-    mindiff = min([x[i+1]-x[i] for i in range(len(midpoints_y))])
-    up_x = np.arange(x[0], x[-1], mindiff)
-    up_y = list(map(lambda i: y[sum(i > x)], up_x))
-    print(up_y)
-    plt.plot(up_x, up_y)
-    plt.show()
-
-sq(arrmidpoints_x, arrmidpoints_y)
-
 plt.plot(time, freqfilt, 'r-')
 plt.plot(x_filt, y_filt, 'o')
 plt.show()
