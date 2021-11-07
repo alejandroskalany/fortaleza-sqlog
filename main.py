@@ -16,7 +16,7 @@ df_slopeChange = []
 data = pd.read_csv("A39_2_MD5MEM_4MPR_7680-9647-page-012.csv", sep=',', header=None, skiprows=1, names=['x','y'])
 data_y = data[['y']]
 frequency = np.array(data_y)
-print(frequency)
+#print(frequency)
 data_x = data[['x']]
 time = np.array(data_x)
 #plt.plot(time,frequency)
@@ -30,17 +30,11 @@ b, a = sg.butter(order, cutoff, output='ba')
 
 #apply filter
 freqfilt = sg.filtfilt(b, a, frequency, axis=0)
-print(freqfilt)
-
-np.savetxt('filtered.csv', freqfilt, delimiter=',', fmt='%1.3f')
+#print(freqfilt)
 
 #set x and y
 x = time
 y = freqfilt
-
-#collect total number of samples
-lines = len(data)
-print(lines)
 
 #detect slope change
 prior_slope = float(y[1] - y[0]) / (x[1] - x[0])
@@ -91,5 +85,7 @@ plt.plot(time, freqfilt, 'r-')
 plt.show()
 
 np.savetxt('slopechangepoints.csv', filtered_xy, fmt='%1.3f')
+np.savetxt('midpointss.csv', midpoints, fmt='%1.3f')
+
 
 
