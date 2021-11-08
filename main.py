@@ -19,7 +19,7 @@ frequency = np.array(data_y)
 print(frequency)
 data_x = data[['x']]
 time = np.array(data_x)
-plt.plot(time,frequency)
+#plt.plot(time,frequency)
 
 #filter parameters
 order = 2 #filter order
@@ -30,17 +30,11 @@ b, a = sg.butter(order, cutoff, output='ba')
 
 #apply filter
 freqfilt = sg.filtfilt(b, a, frequency, axis=0)
-print(freqfilt)
-
-np.savetxt('filtered.csv', freqfilt, delimiter=',', fmt='%1.3f')
+#print(freqfilt)
 
 #set x and y
 x = time
 y = freqfilt
-
-#collect total number of samples
-lines = len(data)
-print(lines)
 
 #detect slope change
 prior_slope = float(y[1] - y[0]) / (x[1] - x[0])
@@ -68,14 +62,10 @@ x_filt = np.array(x[df_slopeChange])
 #new array of xy for slopechange 
 filtered_xy = np.column_stack((x_filt, y_filt))
 filtered_xy = np.array(filtered_xy)
-print(filtered_xy)
-print(filtered_xy.ndim)
-print(filtered_xy.shape)
+#print(filtered_xy)
+#print(filtered_xy.ndim)
+#print(filtered_xy.shape)
 
-index_x= 0
-index_x2 = 1
-index_y = 0
-index_y2 = 1
 midpoints_x = []
 midpoints_y =[]
 
@@ -85,13 +75,17 @@ for i in range(0, len(x_filt)-1):
     midpoints_x.append(mid_x)
     midpoints_y.append(mid_y)
     
-arrmidpoints_x = np.array(midpoints_x)
-arrmidpoints_y = np.array(midpoints_y)
+midpoints_x = np.array(midpoints_x)
+midpoints_y = np.array(midpoints_y)
+midpoints = np.column_stack((midpoints_x,midpoints_y))
 
+plt.plot(midpoints_x, midpoints_y, drawstyle='steps')
 plt.plot(time, freqfilt, 'r-')
-plt.plot(x_filt, y_filt, 'o')
+#plt.plot(x_filt, y_filt, 'o')
 plt.show()
 
 np.savetxt('slopechangepoints.csv', filtered_xy, fmt='%1.3f')
+np.savetxt('slopechangepoints.csv', midpoints, fmt='%1.3f')
+
 
 
