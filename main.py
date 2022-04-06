@@ -5,6 +5,9 @@ import pandas as pd
 import plotly.express as px
 import scipy.signal as sg
 from scipy.signal import butter,filtfilt
+from tkinter import filedialog
+from tkinter import Tk
+import easygui
 
 #print to 3 decimal points
 np.set_printoptions(precision=3)
@@ -13,7 +16,9 @@ np.set_printoptions(precision=3)
 df_slopeChange = []
 
 #open and read file, set columns to x and y
-data = pd.read_csv("A39_2_MD5MEM_4MPR_7680-9647-page-012.csv", sep=',', header=None, skiprows=1, names=['x','y'])
+Tk().withdraw()
+filename = filedialog.askopenfilename()
+data = pd.read_csv(filename, sep=',', header=None, skiprows=1, names=['x','y'])
 data_y = data[['y']]
 frequency = np.array(data_y)
 print(frequency)
@@ -85,7 +90,7 @@ plt.plot(time, freqfilt, 'r-')
 plt.show()
 
 np.savetxt('slopechangepoints.csv', filtered_xy, fmt='%1.3f')
-np.savetxt('slopechangepoints.csv', midpoints, fmt='%1.3f')
+np.savetxt(filename[:-4] + '_square.csv', midpoints, fmt='%1.3f')
 
 
 
